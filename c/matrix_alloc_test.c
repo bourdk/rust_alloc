@@ -4,9 +4,10 @@
 
 int myrand(int, int);
 void initRow(int*, size_t);
+void printMtx(int**, size_t, size_t);
 
 int main(){
-    int m, n, c;
+    int n, m, c;
 	int** mtx;  // this is an arbitrarily sized 2D matrix
 	
 	srand((unsigned int)time(NULL));
@@ -25,16 +26,30 @@ int main(){
 			return -1;
 		}
 		initRow(mtx[c], m);
+		printMtx(mtx, n, m);
 	}
- 
+
+	
+	
 	free(mtx);
  
     return 0;
 }
 
+void printMtx(int** mtx, size_t n, size_t m){
+	int i, j;
+	for (i = 0; i < n; i++) {
+		printf("%d: ", i);
+        for (j = 0; j < m; j++) {
+            printf("%d ", mtx[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 void initRow(int* array, size_t size){
-	int i;
-	for(i = 0; i < size_t; i++){
+	int i, j;
+	for(i = 0; i < size; i++){
 		array[i] = myrand(0, 100);
 	}
 }
