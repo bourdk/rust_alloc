@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "headers/intmodp.h"
 
 int myrand(int);
 void initRow(int*, size_t);
-void printMtx(int**, size_t, size_t);
-void addMtx(int[][], int[][]);
 
 int main(){
     int n, m, c;
@@ -31,8 +30,24 @@ int main(){
 	printMtx(mtx, n, m);
 
 	free(mtx);
+	
+	// run some simple tests on Z mod 7
+	int_modp r1 = { .i=1, .p=7 }, r2 = { .i=3, .p=7 };
+	
+	printf("%d, %d", mul(r1, r2).i, mul(r2, r1).i);
  
     return 0;
+}
+
+int_modp mul(int_modp a, int_modp b){
+	int_modp result = { .i = 0, .p = 0};
+	if(a.p != b.p){
+		return result;
+	}
+	result.i = (a.i * b.i) % a.p;
+	result.p = a.p;
+	
+	return result;
 }
 
 void printMtx(int** mtx, size_t n, size_t m){
@@ -53,10 +68,6 @@ void initRow(int* array, size_t size){
 	}
 }
 
-void addMtx(int** A, int** B){
-
-}
-
 /**
  * Attempt to generate a number between 0 and limit without skew
  * @param limit
@@ -71,4 +82,21 @@ int myrand(int limit){
     } while(retval > limit);
 
 	return retval;
+}
+
+void initMtx(int_modp **A, size_t m, size_t n, int mod){
+	int i, j;
+	for(i = 0; i < m; i++){
+		for(j = 0; j < n; j++){
+			int_modp[i][j] = { .i = myrand(100), .p = mod };
+		}
+	}
+}
+
+void addMtx(int **A, size_t Am, size_t An, int **B, size_t Bm, size_t Bn){
+	if(Am != Bm || An != Bn){
+		return;
+	}
+	
+	
 }
