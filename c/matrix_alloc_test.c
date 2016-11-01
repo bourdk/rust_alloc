@@ -33,8 +33,12 @@ int main(){
 	
 	// run some simple tests on Z mod 7
 	int_modp r1 = { .i=1, .p=7 }, r2 = { .i=3, .p=7 };
+	printf("sizeof: %d; mul values: %d %d\n", sizeof(mul(r1, r2)), mul(r1, r2).i, mul(r2, r1).i);
 	
-	printf("%d, %d", mul(r1, r2).i, mul(r2, r1).i);
+	
+	// run some simple tests on Z mod 7 with bit fields
+	int_modp_word v1 = { .i=1, .p=7 };
+	printf("sizeof: %d; value: %d", sizeof(v1), v1.i);
  
     return 0;
 }
@@ -88,7 +92,8 @@ void initMtx(int_modp **A, size_t m, size_t n, int mod){
 	int i, j;
 	for(i = 0; i < m; i++){
 		for(j = 0; j < n; j++){
-			int_modp[i][j] = { .i = myrand(100), .p = mod };
+			int_modp r1 = { .i = myrand(100), .p = mod };
+			A[i][j] = r1;
 		}
 	}
 }
