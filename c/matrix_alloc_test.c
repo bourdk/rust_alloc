@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h>
 #include "headers/intmodp.h"
 
 int myrand(int);
@@ -38,7 +39,8 @@ int main(){
 	
 	// run some simple tests on Z mod 7 with bit fields
 	int_modp_word v1 = { .i=1, .p=7 };
-	printf("sizeof: %d; value: %d", sizeof(v1), v1.i);
+	printf("sizeof: %d; value: %d\n", sizeof(v1), v1.i);
+	printf("sizeof(CHAR_BIT): %d; value: %d", CHAR_BIT, sizeof(v1));
  
     return 0;
 }

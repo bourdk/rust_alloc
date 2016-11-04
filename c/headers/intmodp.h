@@ -11,6 +11,11 @@ typedef struct {
 	unsigned int p: 12;
 } int_modp_word;
 
+struct {
+	unsigned char * i;
+	unsigned char * p;
+} int_modp_char;
+
 int_modp mul(int_modp a, int_modp b);
 int_modp dot(int_modp *a, int_modp *b, size_t len);
 int_modp smartDot(int_modp *a, int_modp *b, size_t len);
