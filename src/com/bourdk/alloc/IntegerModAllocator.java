@@ -8,7 +8,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.bourdk.types.IntegerMod;
 
 public class IntegerModAllocator extends GenericCollectionAllocator<IntegerMod> {
-    private int modulo;
+    
+    // since we're keeping this static, it should not affect overall dataset size
+    private static int modulo;
     
     public IntegerModAllocator(final int mod){
         modulo = mod;
@@ -31,7 +33,7 @@ public class IntegerModAllocator extends GenericCollectionAllocator<IntegerMod> 
     }
     
     // return a random value in this Ring, hopefully final will inline it
-    final int randomVal(){
+    final static int randomVal(){
         return ThreadLocalRandom.current().nextInt(0, modulo);
     }
 }
