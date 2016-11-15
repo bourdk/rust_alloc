@@ -12,12 +12,12 @@ public class IntegerModRunner {
     }
     
     public IntegerModRunner(){
-        final int mod = 4;
+        final int mod = 65521;  // largest prime that fits in 16 bits
         
         IntegerModAllocator alloc = new IntegerModAllocator(mod);
         List<IntegerMod> testList = alloc.allocArrayList(500);
         
-        System.out.println(testList);
+        testList.forEach(System.out::println);
     }
 
 }

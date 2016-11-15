@@ -3,12 +3,12 @@ package com.bourdk.math;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class Simple2DMatrix<T extends Number> {
+public class Simple2DMatrixGeneric<T extends Number> {
     public T[][] matrix;
     
     // create a 2D matrix
     @SuppressWarnings("unchecked")
-    public Simple2DMatrix(Class<T> type, int n, int m, T init) throws InstantiationException, IllegalAccessException {
+    public Simple2DMatrixGeneric(Class<T> type, int n, int m, T init) throws InstantiationException, IllegalAccessException {
         for(int i = 0; i < n; i++){
             matrix[i] = (T[]) Array.newInstance(type, m);
         }

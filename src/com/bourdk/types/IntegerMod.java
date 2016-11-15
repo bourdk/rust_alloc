@@ -5,20 +5,27 @@ import com.bourdk.exceptions.ModuloException;
 public class IntegerMod extends Number implements Comparable<IntegerMod> {
     
     private int value;
-    private int modulo;
+    private static int modulo;
     
     public IntegerMod(final int val, final int mod){
         modulo = mod;
-        value = val % mod;
+        value = setVal(val, mod);
     }
     
     public IntegerMod(final int val){
-        value = val % modulo;
+        value = setVal(val, modulo);
     }
     
     public IntegerMod(){
-        modulo = 0;
         value = 0;
+    }
+    
+    private int setVal(final int val, final int mod){
+        if(mod > val){
+            return val;
+        }
+        
+        return (val % mod);
     }
     
     

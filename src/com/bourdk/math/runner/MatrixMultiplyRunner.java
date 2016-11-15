@@ -1,6 +1,6 @@
 package com.bourdk.math.runner;
 
-import com.bourdk.math.Simple2DMatrix;
+import com.bourdk.math.Simple2DMatrixGeneric;
 
 public class MatrixMultiplyRunner {
 
@@ -9,12 +9,12 @@ public class MatrixMultiplyRunner {
     }
     
     public MatrixMultiplyRunner(){
-        Simple2DMatrix<Double> mtx1 = (Simple2DMatrix<Double>) this.<Double>initMatrix(2, 2);
-        Simple2DMatrix<Double> mtx2;
+        Simple2DMatrixGeneric<Double> mtx1 = (Simple2DMatrixGeneric<Double>) this.<Double>initMatrix(2, 2);
+        Simple2DMatrixGeneric<Double> mtx2;
     }
     
     // generic matrix initializer
-    private <T> Simple2DMatrix<?> initMatrix(int dim1, int dim2){
+    private <T> Simple2DMatrixGeneric<?> initMatrix(int dim1, int dim2){
         
         
         return null;
@@ -22,7 +22,7 @@ public class MatrixMultiplyRunner {
     }
     
     // generic n-dim matrix initializer
-    private <T> Simple2DMatrix<?> initMatrix(int dim1, int ... dimn){
+    private <T> Simple2DMatrixGeneric<?> initMatrix(int dim1, int ... dimn){
         // n-dimensional array
         for(int i = 0; i < dimn.length; i ++){
             

@@ -9,7 +9,6 @@ import com.bourdk.types.IntegerMod;
 
 public class IntegerModAllocator extends GenericCollectionAllocator<IntegerMod> {
     
-    // since we're keeping this static, it should not affect overall dataset size
     private static int modulo;
     
     public IntegerModAllocator(final int mod){
@@ -28,6 +27,14 @@ public class IntegerModAllocator extends GenericCollectionAllocator<IntegerMod> 
         List<IntegerMod> ret = new Vector<IntegerMod>(size);
         for(int i = 0; i < size; i++){
             ret.add(new IntegerMod(randomVal(), modulo));
+        }
+        return ret;
+    }
+    
+    public IntegerMod[] allocArray(final int size){
+        IntegerMod[] ret = new IntegerMod[size];
+        for(int i = 0; i < size; i++){
+            ret[i] = new IntegerMod(randomVal(), modulo);
         }
         return ret;
     }
