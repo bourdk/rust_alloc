@@ -7,7 +7,7 @@ public class IntegerMod extends Number implements Comparable<IntegerMod> {
     private int value;
     private static int modulo;
     
-    private static int modCounter = 0;
+    private static int modCounter = 0;  // track the number of mod operations performed
     
     public IntegerMod(final int val, final int mod){
         value = setVal(val, mod);
@@ -26,7 +26,7 @@ public class IntegerMod extends Number implements Comparable<IntegerMod> {
             return val;
         }
         
-        modCounter++;
+        modCounter++;  // increment the number of mod operations before performing the mod
         return (val % mod);
     }
     
