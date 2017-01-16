@@ -1,14 +1,15 @@
 package com.bourdk.math.impl;
 
 import com.bourdk.exceptions.ModuloException;
+import com.bourdk.exceptions.OperationException;
 import com.bourdk.math.IntegerModOperations;
 import com.bourdk.types.IntegerMod;
 
 public class IntegerModOperationsImpl implements IntegerModOperations {
 
     final static int HALF_WORD_PRIME_MOD = 65521; // mod is largest prime that fits in 16 bits
-    final static int WORD_PRIME_MOD = 0; // mod is prime and fits in less than Integer.BYTES;
-    final static int DOUBLE_WORD_PRIME_MOD = 0; // mod is prime and fits in less than Long.BYTES;
+    final static int WORD_PRIME_MOD = Integer.MAX_VALUE; // mod is prime and fits in less than Integer.BYTES;
+    final static long DOUBLE_WORD_PRIME_MOD = Long.MAX_VALUE; // mod is prime and fits in less than Long.BYTES;
     
     static int modulo;
     
@@ -18,14 +19,14 @@ public class IntegerModOperationsImpl implements IntegerModOperations {
     }
 
     @Override
-    public int[] add(int[] a, int[] b) throws ModuloException {
+    public int[] add(int[] a, int[] b) throws ModuloException, OperationException {
         if(modulo <= 0){
             throw new ModuloException("Mod must be a positive integer");
         } else if (a.length != b.length){
-            throw new ModuloException("Two vector summands must be the same length");
+            throw new OperationException("Two vector summands must be of the same length");
         }
         
-        // perform addition based mod size
+        // perform addition based on mod size
         if(modulo <= HALF_WORD_PRIME_MOD){
             return addHelper(a, b, 16);
         } else if(modulo > HALF_WORD_PRIME_MOD && modulo <= WORD_PRIME_MOD){
@@ -50,10 +51,39 @@ public class IntegerModOperationsImpl implements IntegerModOperations {
         return res;
     }
 
+    // dot product of A and B, i.e., {for i in 0..A.length-1 do C += A[i] + B[i]}
     @Override
-    public int[] dot(int[] a, int[] b) {
-        // TODO Auto-generated method stub
-        return null;
+    public int dot(int[] a, int[] b) throws ModuloException, OperationException {
+        if(modulo <= 0){
+            throw new ModuloException("Mod must be a positive integer");
+        } else if (a.length != b.length){
+            throw new OperationException("Two operands must be of the same length");
+        }
+        
+        // perform dot based on mod size
+        if(modulo <= HALF_WORD_PRIME_MOD){
+            return dotHelper(a, b, 16);
+        } else if(modulo > HALF_WORD_PRIME_MOD && modulo <= WORD_PRIME_MOD){
+            return dotHelper(a, b, 32);
+        } else {
+            return dotHelper(a, b, 64);
+        }
+    }
+    
+    private int dotHelper(int[] a, int[] b, int modSize){
+        int res = 0;
+        if(modSize <= Short.SIZE){ // half-word, can safely perform multiplication inside a word
+            for(int i = 0; i < a.length; i++){
+                int mul = (a[i] * b[i]) % modulo;
+                res += mul;
+                // can add up to 15 times, before result starts overflowing int size
+                if(i != 0 && i % 15 == 0){
+                    res = res % modulo;
+                }
+            }
+        }
+        
+        return res;
     }
 
     @Override

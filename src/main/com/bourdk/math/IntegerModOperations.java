@@ -1,6 +1,7 @@
 package com.bourdk.math;
 
 import com.bourdk.exceptions.ModuloException;
+import com.bourdk.exceptions.OperationException;
 import com.bourdk.types.IntegerMod;
 
 /**
@@ -28,15 +29,15 @@ public interface IntegerModOperations {
      * @return a + b
      * @throws ModuloException 
      */
-    int [] add(final int [] a, final int [] b) throws ModuloException;
+    int [] add(final int [] a, final int [] b) throws ModuloException, OperationException;
     
     /**
      * Dot product of two vectors
      * @param a
      * @param b
-     * @return
+     * @return a dot b
      */
-    int [] dot(final int [] a, final int [] b);
+    int dot(final int [] a, final int [] b) throws ModuloException, OperationException;
     
     int [][] mtxAdd(final int [][] A, final int [][] B);
     
