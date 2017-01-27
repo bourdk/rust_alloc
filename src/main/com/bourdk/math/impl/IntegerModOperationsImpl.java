@@ -18,6 +18,9 @@ public class IntegerModOperationsImpl implements IntegerModOperations {
         IntegerModOperationsImpl.modulo = m;
     }
 
+    /**
+     * Add two int arrays within Z mod modulo. Perform optimization based on size of modulo.
+     */
     @Override
     public int[] add(int[] a, int[] b) throws ModuloException, OperationException {
         if(modulo <= 0){
@@ -44,11 +47,45 @@ public class IntegerModOperationsImpl implements IntegerModOperations {
         // mod fits in less than 32 bits
         if(modSize < Integer.SIZE) {
             for(int i = 0; i < a.length; i++){
-                res[i] = a[i] + b[i];
-                // 1 addition will still fit in 32 bits, so no need to take mod
+                res[i] = (a[i] + b[i]) % modulo;
             }
         }
         return res;
+    }
+    
+    @Override
+    public IntegerMod[] add(IntegerMod[] a, IntegerMod[] b) throws ModuloException, OperationException {
+        // mod value of the arguments takes precedence over value in this class
+
+        if(a.length != b.length || a.length <= 0){
+            throw new OperationException("Two vector summands must be of the same length");
+        } else if (a[0].getMod() != b[0].getMod() || a[0].getMod() <= 0){
+            throw new ModuloException("Mod values of the arguments must be equal & positive");
+        }
+        
+        int modulo = a[0].getMod();
+        
+        // perform addition based on mod size
+        if(modulo <= HALF_WORD_PRIME_MOD){
+            return addModHelper(a, b, modulo, 16);
+        } else if(modulo > HALF_WORD_PRIME_MOD && modulo <= WORD_PRIME_MOD){
+            return addModHelper(a, b, modulo, 32);
+        } else {
+            return addModHelper(a, b, modulo, 64);
+        }
+    }
+    
+    private IntegerMod[] addModHelper(IntegerMod[] a, IntegerMod[] b, int mod, int modSize){
+        IntegerMod[] res = new IntegerMod[a.length];
+        
+        // mod fits in less than 32 bits
+        if(modSize < Integer.SIZE) {
+            for(int i = 0; i < a.length; i++){
+                res[i] = new IntegerMod();
+                res[i].setMod(mod);
+                res[i] = new IntegerMod(a[i].intValue() + b[i].intValue(), mod);
+            }
+        }
     }
 
     // dot product of A and B, i.e., {for i in 0..A.length-1 do C += A[i] + B[i]}
@@ -98,8 +135,10 @@ public class IntegerModOperationsImpl implements IntegerModOperations {
         return null;
     }
 
+   
+
     @Override
-    public IntegerMod[] add(IntegerMod[] a, IntegerMod[] b) {
+    public IntegerMod[] dot(IntegerMod[] a, IntegerMod[] b) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -1,6 +1,5 @@
 package com.bourdk.math.runner;
 
-import java.io.Console;
 import java.util.List;
 
 import com.bourdk.alloc.IntegerModAllocator;
